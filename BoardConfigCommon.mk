@@ -33,6 +33,7 @@ TARGET_NO_BOOTLOADER := true
 # Platform
 TARGET_BOARD_PLATFORM := msm8974
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno330
+USE_CLANG_PLATFORM_BUILD := true
 
 # Architecture
 TARGET_ARCH := arm
@@ -42,6 +43,7 @@ TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_VARIANT := krait
 
 # Kernel
+BOARD_DTBTOOL_ARGS := --dt-tag "htc,project-id = <"
 BOARD_KERNEL_CMDLINE := console=none androidboot.hardware=qcom user_debug=31 ehci-hcd.park=3 zcache
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
@@ -55,9 +57,9 @@ BOARD_USES_QCOM_HARDWARE := true
 # Audio
 BOARD_USES_ALSA_AUDIO := true
 AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
-AUDIO_FEATURE_ENABLED_FM := true
 AUDIO_FEATURE_ENABLED_HWDEP_CAL := true
 AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE := true
+USE_CUSTOM_AUDIO_POLICY := 1
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -77,9 +79,6 @@ OVERRIDE_RS_DRIVER := libRSDriver_adreno.so
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
-
-# Libc extensions
-BOARD_PROVIDES_ADDITIONAL_BIONIC_STATIC_LIBS += libc_htc_symbols
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -128,37 +127,11 @@ TARGET_RECOVERY_DEVICE_DIRS += device/htc/msm8974-common
 TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 
-# SELinux
-include device/qcom/sepolicy/sepolicy.mk
-BOARD_SEPOLICY_DIRS += device/htc/msm8974-common/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    device.te \
-    file_contexts \
-    file.te \
-    hcheck.te \
-    init.te \
-    kernel.te \
-    mediaserver.te \
-    mm-qcamerad.te \
-    mpdecision.te \
-    platform_app.te \
-    property_contexts \
-    recovery.te \
-    radio.te \
-    rmt_storage.te \
-    system_server.te \
-    tap2wake_dev.te \
-    thermal-engine.te \
-    ueventd.te \
-    vibe_dev.te \
-    vold.te \
-    wpa.te
-
 # Hardware
 BOARD_HARDWARE_CLASS := \
     hardware/cyanogen/cmhw \
     $(LOCAL_PATH)/cmhw
+TARGET_TAP_TO_WAKE_NODE := "/sys/devices/virtual/htc_sensorhub/sensor_hub/tap2wake"
 
 # Inherit from the proprietary version
 -include vendor/htc/msm8974-common/BoardConfigVendor.mk

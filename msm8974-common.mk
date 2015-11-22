@@ -57,7 +57,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.consumerir.xml:system/etc/permissions/android.hardware.consumerir.xml \
     frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
@@ -92,6 +91,10 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing \
     tinymix
 
+# Art
+PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dex2oat-swap=false
+
 # Audio configuration
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
@@ -101,19 +104,16 @@ PRODUCT_COPY_FILES += \
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
-    make_ext4fs \
-    setup_fs
+    make_ext4fs
 
-# FM radio
+# HTC symbols
 PRODUCT_PACKAGES += \
-    qcom.fmradio \
-    libqcomfm_jni \
-    FM2 \
-    FMRecord
+    libhtc_symbols
 
 # GPS
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf
+    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
+    $(LOCAL_PATH)/configs/flp.conf:system/etc/flp.conf
 
 # Graphics
 PRODUCT_PACKAGES += \
@@ -145,6 +145,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/synaptics-rmi-touchscreen.kl:system/usr/keylayout/synaptics-rmi-touchscreen.kl \
     $(LOCAL_PATH)/keylayout/AK8789_HALL_SENSOR.kl:system/usr/keylayout/AK8789_HALL_SENSOR.kl
 
+# Keystore
+PRODUCT_PACKAGES += \
+    keystore.msm8974
+
 # Lights
 PRODUCT_PACKAGES += \
     lights.msm8974
@@ -175,16 +179,20 @@ PRODUCT_PACKAGES += \
 # OMX
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
+    libdashplayer \
     libdivxdrmdecrypt \
-    libOmxCore \
-    libOmxVdec \
-    libOmxVenc \
+    libextmedia_jni \
     libOmxAacEnc \
     libOmxAmrEnc \
+    libOmxCore \
     libOmxEvrcEnc \
     libOmxQcelp13Enc \
+    libOmxVdec \
+    libOmxVdecHevc \
+    libOmxVenc \
+    libOmxVidcCommon \
+    libqcmediaplayer \
     libstagefrighthw \
-    libdashplayer \
     qcmediaplayer
 
 PRODUCT_BOOT_JARS += \
@@ -194,13 +202,16 @@ PRODUCT_BOOT_JARS += \
 PRODUCT_PACKAGES += \
     power.msm8974
 
-# Keystore
+# Radio
 PRODUCT_PACKAGES += \
-    keystore.msm8974
+    libxml2
 
 # Thermal
+PRODUCT_PACKAGES += \
+    thermanager
+
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/thermal-engine.conf:system/etc/thermal-engine.conf
+    $(LOCAL_PATH)/configs/thermanager.xml:system/etc/thermanager.xml
 
 # USB
 PRODUCT_PACKAGES += \
